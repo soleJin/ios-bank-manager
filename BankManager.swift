@@ -7,14 +7,20 @@
 import Foundation
 
 class BankManager {
-    private let customerCount: Int = Int.random(in: 10...30)
     let bankClerkCount: Int
-    var waitingList: [Custmer] = []
     var bankClerks: [BankClerk] = []
+    var waitingList = Heap<Customer>(comparator: {
+        $0.grade.priority < $1.grade.priority
+    })
     
     func holdCustomers() {
+        let customerCount = Int.random(in: 10...30)
         for index in 1...customerCount {
-            self.waitingList.append(Custmer(index: index, taskTime: 0.7))
+            guard let randomCustomerGrade = Grade.allCases.randomElement(),
+                  let randomBusinessType = BusinessType.allCases.randomElement() else {
+                return
+            }
+            waitingList.insert(Customer(index: index, grade: randomCustomerGrade, businessType: randomBusinessType))
         }
     }
     
@@ -46,5 +52,5 @@ class BankManager {
 
     init(bankClerkCount: Int) {
         self.bankClerkCount = bankClerkCount
-    }
+    }    
 }

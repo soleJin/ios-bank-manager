@@ -23,23 +23,21 @@ class BankClerk {
     }
     
     private func startWork() {
-        guard let customer = bankManager.waitingList.first else {
+        guard let customer = bankManager.waitingList.delete() else {
             return
         }
+      
         working = true
-        let startMessage = String(format: ClerkWork.stratMessage.rawValue, bankWindowNumber, customer.index)
+        let startMessage = String(format: ClerkWork.stratMessage.rawValue, bankWindowNumber, customer.index, customer.grade.rawValue, customer.businessType.rawValue)
         print(startMessage)
+        totalTaskTime += customer.businessType.taskTime
+        finishedCustomerNumber += 1
+        let finishedMessage = String(format: ClerkWork.FinishedMessage.rawValue, bankWindowNumber, customer.index, customer.grade.rawValue, customer.businessType.rawValue)
+        print(finishedMessage)
     }
     
     private func finishWork() {
-        guard let customer = bankManager.waitingList.first else {
-            return
-        }
-        finishedCustomerNumber += 1
-        totalTaskTime += customer.taskTime
-        let finishedMessage = String(format: ClerkWork.FinishedMessage.rawValue, bankWindowNumber, customer.index)
-        print(finishedMessage)
-        bankManager.waitingList.removeFirst()
+        
         working = false
     }
 }
