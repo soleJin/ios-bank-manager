@@ -26,7 +26,6 @@ class BankClerk {
         guard let customer = bankManager.waitingList.delete() else {
             return
         }
-      
         working = true
         let startMessage = String(format: ClerkWork.stratMessage.rawValue, bankWindowNumber, customer.index, customer.grade.rawValue, customer.businessType.rawValue)
         print(startMessage)
@@ -37,7 +36,6 @@ class BankClerk {
     }
     
     private func finishWork() {
-        
         working = false
     }
 }

@@ -50,7 +50,7 @@ struct Heap<T> {
         siftUp(at: nodes.count-1)
     }
     
-    func availableChild(at index: Int) -> Int? {
+    func availableChildAndChange(at index: Int) -> Int? {
         //왼쪽자식없으면 바꿀필요없음
         guard let leftChildIndex = gotLeftChildIndex(of: index) else { return nil }
         //왼쪽자식있고 오른쪽자식 있으면
@@ -66,7 +66,7 @@ struct Heap<T> {
     
     mutating func siftDown(at index: Int) {
         var index = index
-        while let childIndex = availableChild(at: index) {
+        while let childIndex = availableChildAndChange(at: index) {
             nodes.swapAt(index, childIndex)
             index = childIndex
         }
@@ -74,10 +74,11 @@ struct Heap<T> {
     
     mutating func delete() -> T? {
         guard !isEmpty else { return nil }
+        //리무브라스트를 리턴으로 토하면 왜 가끔 잘못 빠지는지 모르겠다
+        let willDelete = nodes[0]
         nodes.swapAt(0, nodes.count-1)
+        nodes.removeLast()
         siftDown(at: 0)
-        return nodes.removeLast()
+        return willDelete
     }
 }
-
-
