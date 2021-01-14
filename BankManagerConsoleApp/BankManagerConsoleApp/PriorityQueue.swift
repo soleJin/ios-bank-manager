@@ -18,11 +18,6 @@ struct Heap<T> {
         self.comparator = comparator
     }
     
-//    init(array: [T], comparator: @escaping (T, T) -> Bool) {
-//        self.comparator = comparator
-//        buildHeap(from: array)
-//    }
-    
     func gotParentIndex(of index: Int) -> Int? {
         guard index > 0 else { return nil }
         return (index-1)/2
@@ -36,7 +31,7 @@ struct Heap<T> {
     }
     
     func gotRightChildIndex(of index: Int) -> Int? {
-        if case let rightChildIndex = (index * 2) + 1, rightChildIndex < nodes.count {
+        if case let rightChildIndex = (index * 2) + 2, rightChildIndex < nodes.count {
             return rightChildIndex
         }
         return nil
@@ -54,10 +49,6 @@ struct Heap<T> {
         nodes.append(element)
         siftUp(at: nodes.count-1)
     }
-    
-//    mutating func buildHeap(from array: [T]) {
-//        array.forEach { insert($0) }
-//    }
     
     func availableChild(at index: Int) -> Int? {
         //왼쪽자식없으면 바꿀필요없음
